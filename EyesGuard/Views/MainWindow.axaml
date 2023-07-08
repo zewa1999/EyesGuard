@@ -1,0 +1,64 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:EyesGuard.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
+        x:Class="EyesGuard.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/app-logo.png"
+        Title="EyesGuard"
+		Width="500"
+        Height="500"
+        CanResize="False"
+		Background="#1EBBD7">
+
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="auto" />
+			<RowDefinition Height="auto" />
+			<RowDefinition Height="auto" />
+			<RowDefinition Height="auto" />
+			<RowDefinition Height="auto" />
+		</Grid.RowDefinitions>
+
+		<!--First Row-->
+		<StackPanel Orientation="Vertical" Grid.Row="0" HorizontalAlignment="Center" Margin="0,-30,0,60" >
+			<Image Source="/Assets/eyes-guard-logo.png" Grid.Row="0" HorizontalAlignment="Center" Width="150" Height="150"/>
+			<TextBlock Text="Take more care of your eyes" HorizontalAlignment="Center" Margin="0,-30,0,0"/>
+		</StackPanel>
+
+		<!--Second Row-->
+		<StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,30">
+			<TextBlock Text="Interval time:"/>
+			<TextBox x:Name="IntervalTextBox" Text="{Binding IntervalTime}"/>
+			<TextBlock Text="minutes" />
+		</StackPanel>
+
+		<!--Third Row-->
+		<StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0,0,0,30">
+			<TextBlock Text="Text to display" />
+			<TextBox Grid.Row="2" x:Name="WindowTextMessage" Text="{Binding TextToDisplay}"/>
+		</StackPanel>
+
+		<!--Fourth Row-->
+		<StackPanel Orientation="Vertical" Grid.Row="3" Margin="0,0,0,30">
+			<TextBlock Text="Method of notifying:" />
+			<CheckBox Content="Notification" IsChecked="{Binding Path=IsNotificationChecked}"/>
+			<CheckBox Content="Window pop-up" IsChecked="{Binding Path=IsWindowPopupChecked}" />
+		</StackPanel>
+
+		<!--Fourth Row-->
+		<StackPanel Orientation="Horizontal" Grid.Row="4" Margin="0,0,0,30">
+			<Button x:Name="StartButton" Command="{Binding ButtonStartCommand}" Margin="0,0,20,0">Start</Button>
+			<Button x:Name="StopButton" Command="{Binding ButtonStopCommand}">Stop</Button>
+		</StackPanel>
+	</Grid>
+
+</Window>
