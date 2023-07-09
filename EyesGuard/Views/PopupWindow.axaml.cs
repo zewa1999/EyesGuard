@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace EyesGuard.Views;
 
-public partial class MainWindow : Window
+public partial class PopupWindow : Window
 {
-    public MainWindow()
+    public PopupWindow()
     {
         InitializeComponent();
     }

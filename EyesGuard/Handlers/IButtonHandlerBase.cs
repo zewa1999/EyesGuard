@@ -1,7 +1,7 @@
 ﻿using EyesGuard.Models;
 using EyesGuard.ViewModels;
 
-namespace EyesGuard.Commands;
+namespace EyesGuard.Handlers;
 
 public interface IButtonHandlerBase
 {

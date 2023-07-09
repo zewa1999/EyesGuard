@@ -1,17 +1,17 @@
 ﻿using EyesGuard.Models;
 using EyesGuard.ViewModels;
 
-namespace EyesGuard.Commands;
+namespace EyesGuard.Handlers;
 
 internal class ButtonStopHandler : IButtonHandlerBase
 {
     public ViewModelBase ViewModel { get; }
     public ConfigurationModel ConfigurationModel { get; }
 
-    public ButtonStopHandler(ViewModelBase viewModel, ConfigurationModel contractModel)
+    public ButtonStopHandler(ViewModelBase viewModel, ConfigurationModel configurationModel)
     {
         ViewModel = viewModel;
-        ConfigurationModel = contractModel;
+        ConfigurationModel = configurationModel;
     }
 
     public void Execute()

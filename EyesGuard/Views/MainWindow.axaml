@@ -50,7 +50,6 @@
 		<!--Fourth Row-->
 		<StackPanel Orientation="Vertical" Grid.Row="3" Margin="0,0,0,30">
 			<TextBlock Text="Method of notifying:" />
-			<CheckBox Content="Notification" IsChecked="{Binding Path=IsNotificationChecked}"/>
 			<CheckBox Content="Window pop-up" IsChecked="{Binding Path=IsWindowPopupChecked}" />
 		</StackPanel>
 

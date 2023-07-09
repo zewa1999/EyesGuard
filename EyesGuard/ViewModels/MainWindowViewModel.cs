@@ -1,6 +1,7 @@
 ﻿using System.Reactive;
-using EyesGuard.Commands;
 using EyesGuard.Models;
+using EyesGuard.Processes;
+using EyesGuard.Views;
 using ReactiveUI;
 
 namespace EyesGuard.ViewModels;
@@ -8,25 +9,38 @@ namespace EyesGuard.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     private readonly ConfigurationModel _configurationModel;
-    private readonly IButtonHandlerBase _startButtonHandler;
-    private readonly IButtonHandlerBase _stopButtonHandler;
+    private readonly TimeManager _timer;
+    private readonly PopupWindowViewModel _popWindowViewModel;
+
     public ReactiveCommand<Unit, Unit> ButtonStartCommand { get; }
     public ReactiveCommand<Unit, Unit> ButtonStopCommand { get; }
 
     public MainWindowViewModel()
     {
         _configurationModel = new ConfigurationModel();
+        _popWindowViewModel = new PopupWindowViewModel();
 
-        // this should be changed to DI, maybe
-        _startButtonHandler = new ButtonStartHandler(this, _configurationModel);
-        _stopButtonHandler = new ButtonStartHandler(this, _configurationModel);
-
+        _timer = new TimeManager();
         ButtonStartCommand = ReactiveCommand.Create(
-               () =>  _startButtonHandler.Execute());
-        ButtonStopCommand = ReactiveCommand.Create(
-               () => _stopButtonHandler.Execute());
-    }
+               () =>
+               {
+                   if (_intervalTime is not null)
+                   {
+                       _timer.Start(_configurationModel.IntervalMinutesTime);
+                   }
+               });
 
+        ButtonStopCommand = ReactiveCommand.Create(
+               () => _timer.Stop());
+
+        var popupWindow = new PopupWindow
+        {
+            DataContext = _popWindowViewModel
+        };
+
+        popupWindow.Show();
+
+    }
 
     #region properties
 
@@ -60,22 +74,6 @@ public class MainWindowViewModel : ViewModelBase
             _textToDisplay = value;
             _configurationModel.TextToDisplay = value;
             this.RaiseAndSetIfChanged(ref _textToDisplay, value);
-        }
-    }
-
-    private bool _isNotificationChecked;
-
-    public bool IsNotificationChecked
-    {
-        get
-        {
-            return _isNotificationChecked;
-        }
-        set
-        {
-            _isNotificationChecked = value;
-            _configurationModel.IsNotificationChecked = value;
-            this.RaiseAndSetIfChanged(ref _isNotificationChecked, value);
         }
     }
 
