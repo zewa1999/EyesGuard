@@ -8,15 +8,15 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/app-logo.png"
         Title="EyesGuard"
-		Width="500"
+        Width="500"
         Height="500"
         CanResize="False"
-		Background="#1EBBD7">
+        Background="#1EBBD7">
 
 	<Design.DataContext>
 		<!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-		<vm:MainWindowViewModel/>
+		<vm:MainWindowViewModel />
 	</Design.DataContext>
 
 	<Grid>
@@ -26,38 +26,51 @@
 			<RowDefinition Height="auto" />
 			<RowDefinition Height="auto" />
 			<RowDefinition Height="auto" />
+			<RowDefinition Height="auto" />
 		</Grid.RowDefinitions>
 
-		<!--First Row-->
-		<StackPanel Orientation="Vertical" Grid.Row="0" HorizontalAlignment="Center" Margin="0,-30,0,60" >
-			<Image Source="/Assets/eyes-guard-logo.png" Grid.Row="0" HorizontalAlignment="Center" Width="150" Height="150"/>
-			<TextBlock Text="Take more care of your eyes" HorizontalAlignment="Center" Margin="0,-30,0,0"/>
+		<StackPanel Orientation="Vertical" Grid.Row="0" HorizontalAlignment="Center" Margin="0,-30,0,60">
+			<Image Source="/Assets/eyes-guard-logo.png" Grid.Row="0" HorizontalAlignment="Center" Width="150" Height="150" />
+			<TextBlock Text="Take more care of your eyes" HorizontalAlignment="Center" Margin="0,-30,0,0" />
 		</StackPanel>
 
-		<!--Second Row-->
 		<StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,30">
-			<TextBlock Text="Interval time:"/>
-			<TextBox x:Name="IntervalTextBox" Text="{Binding IntervalTime}"/>
-			<TextBlock Text="minutes" />
+			<TextBlock Text="Interval time:" VerticalAlignment="Center" Margin="0,0,10,0" />
+			<NumericUpDown x:Name="IntervalNumericUpDown"
+                           Value="{Binding IntervalTime}"
+                           Minimum="1"
+                           Maximum="60"
+                           Increment="1"
+                           Width="110"
+                           HorizontalAlignment="Left" />
+			<TextBlock Text="minutes" VerticalAlignment="Center" Margin="10,0,0,0" />
 		</StackPanel>
 
-		<!--Third Row-->
 		<StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0,0,0,30">
-			<TextBlock Text="Text to display" />
-			<TextBox Grid.Row="2" x:Name="WindowTextMessage" Text="{Binding TextToDisplay}"/>
+			<TextBlock Text="Pause duration:" VerticalAlignment="Center" Margin="0,0,10,0" />
+			<NumericUpDown x:Name="PauseDurationNumericUpDown"
+                           Value="{Binding PauseDuration}"
+                           Minimum="1"
+                           Maximum="10"
+                           Increment="1"
+                           Width="110"
+                           HorizontalAlignment="Left" />
+			<TextBlock Text="minutes" VerticalAlignment="Center" Margin="10,0,0,0" />
 		</StackPanel>
 
-		<!--Fourth Row-->
-		<StackPanel Orientation="Vertical" Grid.Row="3" Margin="0,0,0,30">
+		<StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,0,0,30">
+			<TextBlock Text="Text to display" />
+			<TextBox Grid.Row="2" x:Name="WindowTextMessage" Text="{Binding TextToDisplay}" MaxLength="50" />
+		</StackPanel>
+
+		<StackPanel Orientation="Vertical" Grid.Row="4" Margin="0,0,0,30">
 			<TextBlock Text="Method of notifying:" />
 			<CheckBox Content="Window pop-up" IsChecked="{Binding Path=IsWindowPopupChecked}" />
 		</StackPanel>
 
-		<!--Fourth Row-->
-		<StackPanel Orientation="Horizontal" Grid.Row="4" Margin="0,0,0,30">
+		<StackPanel Orientation="Horizontal" Grid.Row="5" Margin="0,0,0,30">
 			<Button x:Name="StartButton" Command="{Binding ButtonStartCommand}" Margin="0,0,20,0">Start</Button>
 			<Button x:Name="StopButton" Command="{Binding ButtonStopCommand}">Stop</Button>
 		</StackPanel>
 	</Grid>
-
 </Window>

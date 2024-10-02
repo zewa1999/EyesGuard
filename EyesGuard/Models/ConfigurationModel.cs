@@ -1,8 +1,9 @@
 ﻿namespace EyesGuard.Models;
 
-public record ConfigurationModel
+public static class ConfigurationModel
 {
-    public int IntervalMinutesTime { get; set; }
-    public string TextToDisplay { get; set; } = null!;
-    public bool IsWindowPopupChecked { get; set; }
+    public static int IntervalMinutesTime { get; set; }
+    public static int PauseDuration { get; set; }
+    public static string TextToDisplay { get; set; } = null!;
+    public static bool IsWindowPopupChecked { get; set; }
 }

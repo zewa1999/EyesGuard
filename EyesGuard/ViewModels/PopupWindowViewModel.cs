@@ -2,41 +2,54 @@
 using EyesGuard.Models;
 using ReactiveUI;
 using System;
-using System.ComponentModel;
-using System.Reactive.Linq;
+using System.Reactive;
 
 namespace EyesGuard.ViewModels;
 
 public class PopupWindowViewModel : ViewModelBase
 {
+    private DispatcherTimer _timer;
+    private TimeSpan _timeRemaining;
+
+    public ReactiveCommand<Unit, Unit> StartTimerCommand { get; }
+
+    private string _countdownTime;
+
+    public string CountdownTime
+    {
+        get => _countdownTime;
+        set => this.RaiseAndSetIfChanged(ref _countdownTime, value);
+    }
+
+    private string _userText;
+
+    public string UserText
+    {
+        get => ConfigurationModel.TextToDisplay;
+    }
+
     public PopupWindowViewModel()
     {
-        StartProgressBar();
+        _timeRemaining = TimeSpan.FromMinutes(ConfigurationModel.PauseDuration);
+        _countdownTime = _timeRemaining.ToString("mm\\:ss");
+
+        _timer = new DispatcherTimer();
+        _timer.Interval = TimeSpan.FromSeconds(1);
+        _timer.Tick += OnTimerTick!;
+        _timer.Start();
     }
 
-    private void StartProgressBar()
+    private void OnTimerTick(object sender, EventArgs e)
     {
-        Observable.Interval(TimeSpan.FromSeconds(1))
-            .Take(20)
-            .Subscribe(_ =>
-            {
-                Progress += 1;
-            });
-    }
-
-
-    private int _progress = 8;
-
-    public int Progress
-    {
-        get
+        if (_timeRemaining.TotalSeconds > 0)
         {
-            return _progress;
+            _timeRemaining = _timeRemaining.Subtract(TimeSpan.FromSeconds(1));
+            CountdownTime = _timeRemaining.ToString("mm\\:ss"); // Update the displayed time
         }
-        set
+        else
         {
-            _progress = value;
-            this.RaiseAndSetIfChanged(ref _progress, value);
+            _timer.Stop();
+            CountdownTime = "00:00"; // Timer finished
         }
     }
 }

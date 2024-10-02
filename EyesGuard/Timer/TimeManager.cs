@@ -1,9 +1,5 @@
 ﻿using EyesGuard.ViewModels;
 using EyesGuard.Views;
-using System;
-using System.ComponentModel;
-using System.Reflection.Metadata.Ecma335;
-using System.Threading;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
@@ -16,7 +12,7 @@ public class TimeManager : ITimeManager
 
     public TimeManager()
     {
-        _timer= new Timer();
+        _timer = new Timer();
     }
 
     public void Start(int minutes)
@@ -38,7 +34,5 @@ public class TimeManager : ITimeManager
         {
             DataContext = new PopupWindowViewModel()
         };
-
     }
-
 }

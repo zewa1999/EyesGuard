@@ -1,14 +1,13 @@
-﻿using System.Reactive;
-using EyesGuard.Models;
+﻿using EyesGuard.Models;
 using EyesGuard.Processes;
 using EyesGuard.Views;
 using ReactiveUI;
+using System.Reactive;
 
 namespace EyesGuard.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private readonly ConfigurationModel _configurationModel;
     private readonly TimeManager _timer;
     private readonly PopupWindowViewModel _popWindowViewModel;
 
@@ -17,17 +16,13 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        _configurationModel = new ConfigurationModel();
         _popWindowViewModel = new PopupWindowViewModel();
 
         _timer = new TimeManager();
         ButtonStartCommand = ReactiveCommand.Create(
                () =>
                {
-                   if (_intervalTime is not null)
-                   {
-                       _timer.Start(_configurationModel.IntervalMinutesTime);
-                   }
+                   _timer.Start(ConfigurationModel.IntervalMinutesTime);
                });
 
         ButtonStopCommand = ReactiveCommand.Create(
@@ -39,14 +34,13 @@ public class MainWindowViewModel : ViewModelBase
         };
 
         popupWindow.Show();
-
     }
 
     #region properties
 
-    private string _intervalTime = null!;
+    private int _intervalTime;
 
-    public string IntervalTime
+    public int IntervalTime
     {
         get
         {
@@ -56,8 +50,25 @@ public class MainWindowViewModel : ViewModelBase
         {
             _intervalTime = value;
             // check if error here
-            _configurationModel.IntervalMinutesTime = int.Parse(value);
+            ConfigurationModel.IntervalMinutesTime = value;
             this.RaiseAndSetIfChanged(ref _intervalTime, value);
+        }
+    }
+
+    private int _pauseDuration;
+
+    public int PauseDuration
+    {
+        get
+        {
+            return _pauseDuration;
+        }
+        set
+        {
+            _pauseDuration = value;
+            // check if error here
+            ConfigurationModel.IntervalMinutesTime = value;
+            this.RaiseAndSetIfChanged(ref _pauseDuration, value);
         }
     }
 
@@ -72,7 +83,7 @@ public class MainWindowViewModel : ViewModelBase
         set
         {
             _textToDisplay = value;
-            _configurationModel.TextToDisplay = value;
+            ConfigurationModel.TextToDisplay = value;
             this.RaiseAndSetIfChanged(ref _textToDisplay, value);
         }
     }
@@ -88,7 +99,7 @@ public class MainWindowViewModel : ViewModelBase
         set
         {
             _isWindowPopupChecked = value;
-            _configurationModel.IsWindowPopupChecked = value;
+            ConfigurationModel.IsWindowPopupChecked = value;
             this.RaiseAndSetIfChanged(ref _isWindowPopupChecked, value);
         }
     }
